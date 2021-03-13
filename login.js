@@ -38,3 +38,14 @@ class signUpUseCase {
     }
   }
 }
+
+// add-account-repo
+const mongoose = require('mongoose')
+const AccountModel = mongoose.model('Account')
+
+class addAccountRepository {
+  async add (email, password, repeatPassword) {
+    const user = await AccountModel.create({ email, password })
+    return user
+  }
+}
