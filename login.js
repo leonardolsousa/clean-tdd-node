@@ -29,3 +29,12 @@ class signUpRouter {
     }
   }
 }
+
+// signup-usecase
+class signUpUseCase {
+  async signUp (email, password, repeatPassword) {
+    if (password === repeatPassword) {
+      new addAccountRepository().add(email, password)
+    }
+  }
+}
