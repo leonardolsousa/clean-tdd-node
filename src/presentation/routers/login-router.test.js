@@ -8,11 +8,11 @@ const makeSut = () => {
       this.password = password
     }
   }
-  const authUseCase = new AuthUseCase()
-  const sut = new LoginRouter(authUseCase)
+  const authUseCaseSpy = new AuthUseCaseSpy()
+  const sut = new LoginRouter(authUseCaseSpy)
   return {
     sut,
-    authUseCase
+    authUseCaseSpy
   }
 }
 
@@ -65,5 +65,17 @@ describe('Login Router', () => {
     sut.route(httpRequest)
     expect(authUseCaseSpy.email).toBe(httpRequest.body.email)
     expect(authUseCaseSpy.password).toBe(httpRequest.body.password)
+  })
+
+  test('Should return 401 when invalid credentials are provided', () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'invalid_email@email.com',
+        password: 'invalid_password'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(401)
   })
 })
